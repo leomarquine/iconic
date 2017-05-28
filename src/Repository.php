@@ -11,7 +11,7 @@ class Repository
      *
      * @var array
      */
-    protected static $cache = [];
+    protected $cache = [];
 
     /**
      * Get the svg.
@@ -20,15 +20,15 @@ class Repository
      * @param  string  $path
      * @return string
      */
-    public static function get($name, $path)
+    public function get($name, $path)
     {
-        if (! array_key_exists($name, static::$cache)) {
-            static::$cache[$name] = static::file(
+        if (! array_key_exists($name, $this->cache)) {
+            $this->cache[$name] = $this->file(
                 rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$name.'.svg'
             );
         }
 
-        return static::$cache[$name];
+        return $this->cache[$name];
     }
 
     /**
@@ -39,7 +39,7 @@ class Repository
      *
      * @throws \Exception
      */
-    protected static function file($file)
+    protected function file($file)
     {
         if (is_file($file)) {
             return file_get_contents($file);
