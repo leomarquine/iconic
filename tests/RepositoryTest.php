@@ -2,6 +2,7 @@
 
 use Marquine\Iconic\Repository;
 use PHPUnit\Framework\TestCase;
+use VirtualFileSystem\FileSystem;
 
 class RepositoryTest extends TestCase
 {
@@ -12,7 +13,17 @@ class RepositoryTest extends TestCase
 
         $svg  = '<svg fill="#000000" height="24" width="24"></svg>';
 
-        $this->assertEquals($svg, $repository->get('icon', __DIR__));
-        $this->assertEquals($svg, $repository->get('icon', ''));
+        $filesystem = new FileSystem();
+        mkdir($filesystem->path('icons'));
+
+        file_put_contents($filesystem->path('icons/icon.svg'), $svg);
+        $this->assertEquals(
+            $svg, $repository->get('icon', $filesystem->path('icons'))
+        );
+
+        unlink($filesystem->path('icons/icon.svg'));
+        $this->assertEquals(
+            $svg, $repository->get('icon', $filesystem->path('icons'))
+        );
     }
 }
