@@ -64,9 +64,9 @@ class IconTest extends TestCase
     /** @test */
     function it_changes_the_color_of_the_svg()
     {
-        $svg = '<svg fill="#616e61" height="24" width="24"></svg>';
+        $svg = '<svg fill="#416e61" height="24" width="24"></svg>';
 
-        $this->assertEquals($svg, $this->icon->color('#616e61'));
+        $this->assertEquals($svg, $this->icon->color('#416e61'));
     }
 
     /** @test */
