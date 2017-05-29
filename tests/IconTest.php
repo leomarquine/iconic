@@ -68,3 +68,13 @@ class IconTest extends TestCase
 
         $this->assertEquals($svg, $this->icon->color('#616e61'));
     }
+
+    /** @test */
+    function render_icon_using_helper_function()
+    {
+        // Set the helper function Icon instance.
+        icon($this->icon);
+
+        $this->assertEquals($this->svg, icon('icon'));
+    }
+}
