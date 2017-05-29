@@ -7,90 +7,83 @@ class IconTest extends TestCase
 {
     protected $icon;
 
-    protected $svg = '<svg fill="#000000" height="24" width="24"></svg>';
-
-    protected $repository;
-
-    protected $config;
-
     public function setUp()
     {
         parent::setUp();
 
-        $this->repository = Mockery::mock('Marquine\Iconic\Repository');
-        $this->repository->shouldReceive('get')->with('icon', '/path/to/icons')->once()->andReturn($this->svg);
+        $this->init();
+    }
 
-        $this->config['path'] = '/path/to/icons';
+    public function init($config = null, $svg = null)
+    {
+        $config = $config ?: ['path' => '/path/to/icons'];
+        $svg = $svg ?: '<svg fill="#000000" height="24" width="24"></svg>';
 
-        $icon = new Icon($this->repository, $this->config);
+        $repository = Mockery::mock('Marquine\Iconic\Repository');
+        $repository->shouldReceive('get')->with('name', '/path/to/icons')->once()->andReturn($svg);
 
-        $this->icon = $icon->make('icon');
+        $this->icon = new Icon($repository, $config);
+
+        icon($this->icon);
     }
 
     /** @test */
     function it_renders_the_svg()
     {
-        $this->assertEquals($this->svg, $this->icon->render());
+        $this->assertEquals('<svg fill="#000000" height="24" width="24"></svg>', $this->icon->make('name')->render());
+    }
+
+    /** @test */
+    function it_provides_an_icon_helper_function()
+    {
+        icon($this->icon); // Set the helper function Icon instance.
+
+        $this->assertInstanceOf(Icon::class, icon('name'));
     }
 
     /** @test */
     function it_casts_the_icon_instance_to_string()
     {
-        $this->assertEquals($this->svg, $this->icon);
+        $this->assertEquals('<svg fill="#000000" height="24" width="24"></svg>', icon('name'));
     }
 
     /** @test */
     function it_changes_the_height_of_the_svg()
     {
-        $svg = '<svg fill="#000000" height="16" width="24"></svg>';
-
-        $this->assertEquals($svg, $this->icon->height(16));
+        $this->assertEquals('<svg fill="#000000" height="16" width="24"></svg>', icon('name')->height(16));
     }
 
     /** @test */
     function it_changes_the_width_of_the_svg()
     {
-        $svg = '<svg fill="#000000" height="24" width="16"></svg>';
-
-        $this->assertEquals($svg, $this->icon->width(16));
+        $this->assertEquals('<svg fill="#000000" height="24" width="16"></svg>', icon('name')->width(16));
     }
 
     /** @test */
     function it_changes_the_height_and_width_of_the_svg()
     {
-        $svg = '<svg fill="#000000" height="16" width="16"></svg>';
-
-        $this->assertEquals($svg, $this->icon->size(16));
+        $this->assertEquals('<svg fill="#000000" height="16" width="16"></svg>', icon('name')->size(16));
     }
 
     /** @test */
     function it_changes_the_color_of_the_svg()
     {
-        $svg = '<svg fill="#416e61" height="24" width="24"></svg>';
-
-        $this->assertEquals($svg, $this->icon->color('#416e61'));
+        $this->assertEquals('<svg fill="#416e61" height="24" width="24"></svg>', icon('name')->color('#416e61'));
     }
 
-    /** @test */
-    function it_changes_the_size_and_color_to_default_values()
-    {
-        $this->config['defaults']['color'] = '#4c656f';
-        $this->config['defaults']['height'] = '16';
-        $this->config['defaults']['width'] = '16';
-
-        $icon = new Icon($this->repository, $this->config);
-
-        $svg = '<svg fill="#4c656f" height="16" width="16"></svg>';
-
-        $this->assertEquals($svg, $icon->make('icon'));
-    }
 
     /** @test */
-    function render_icon_using_helper_function()
+    function it_applies_default_values()
     {
-        // Set the helper function Icon instance.
-        icon($this->icon);
+        $this->init([
+            'path' => '/path/to/icons',
+            'defaults' => [
+                'color' => '#4c656f',
+                'height' => '16',
+                'width' => '16',
+            ]
+        ]);
 
-        $this->assertEquals($this->svg, icon('icon'));
+        $this->assertEquals('<svg fill="#4c656f" height="16" width="16"></svg>', icon('name'));
     }
 }
