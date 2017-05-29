@@ -50,7 +50,25 @@ class Icon
             $name, $this->config['path']
         );
 
+        $this->defaults();
+
         return $this;
+    }
+
+    /**
+     * Set default values.
+     *
+     * @return void
+     */
+    protected function defaults()
+    {
+        if (! array_key_exists('defaults', $this->config)) {
+            return;
+        }
+
+        foreach ($this->config['defaults'] as $key => $value) {
+            $this->{$key}($value);
+        }
     }
 
     /**

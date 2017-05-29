@@ -9,18 +9,20 @@ class IconTest extends TestCase
 
     protected $svg = '<svg fill="#000000" height="24" width="24"></svg>';
 
+    protected $repository;
+
+    protected $config;
+
     public function setUp()
     {
         parent::setUp();
 
-        $repository = Mockery::mock('Marquine\Iconic\Repository');
-        $repository->shouldReceive('get')->with('icon', '/path/to/icons')->once()->andReturn($this->svg);
+        $this->repository = Mockery::mock('Marquine\Iconic\Repository');
+        $this->repository->shouldReceive('get')->with('icon', '/path/to/icons')->once()->andReturn($this->svg);
 
-        $config = [
-            'path' => '/path/to/icons',
-        ];
+        $this->config['path'] = '/path/to/icons';
 
-        $icon = new Icon($repository, $config);
+        $icon = new Icon($this->repository, $this->config);
 
         $this->icon = $icon->make('icon');
     }
@@ -67,6 +69,20 @@ class IconTest extends TestCase
         $svg = '<svg fill="#416e61" height="24" width="24"></svg>';
 
         $this->assertEquals($svg, $this->icon->color('#416e61'));
+    }
+
+    /** @test */
+    function it_changes_the_size_and_color_to_default_values()
+    {
+        $this->config['defaults']['color'] = '#4c656f';
+        $this->config['defaults']['height'] = '16';
+        $this->config['defaults']['width'] = '16';
+
+        $icon = new Icon($this->repository, $this->config);
+
+        $svg = '<svg fill="#4c656f" height="16" width="16"></svg>';
+
+        $this->assertEquals($svg, $icon->make('icon'));
     }
 
     /** @test */
