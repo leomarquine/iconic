@@ -2,6 +2,8 @@
 
 namespace Marquine\Iconic;
 
+use DOMDocument;
+
 class Icon
 {
     /**
@@ -46,9 +48,14 @@ class Icon
      */
     public function make($name)
     {
-        $this->icon = $this->repository->get(
+        $icon = $this->repository->get(
             $name, $this->config['path']
         );
+
+        $document = new DOMDocument;
+        $document->loadXML($icon);
+
+        $this->icon = $document->getElementsByTagName('svg')->item(0);
 
         $this->defaults();
 
@@ -78,7 +85,7 @@ class Icon
      */
     public function render()
     {
-        return $this->icon;
+        return $this->icon->C14N();
     }
 
     /**
@@ -99,9 +106,7 @@ class Icon
      */
     public function height($height)
     {
-        $this->icon = preg_replace(
-            '/(?<=\sheight=")(.*?)(?=")/', $height, $this->icon
-        );
+        $this->icon->setAttribute('height', $height);
 
         return $this;
     }
@@ -114,9 +119,7 @@ class Icon
      */
     public function width($width)
     {
-        $this->icon = preg_replace(
-            '/(?<=\swidth=")(.*?)(?=")/', $width, $this->icon
-        );
+        $this->icon->setAttribute('width', $width);
 
         return $this;
     }
@@ -140,9 +143,7 @@ class Icon
      */
     public function color($color)
     {
-        $this->icon = preg_replace(
-            '/(?<=\sfill=")(.*?)(?=")/', $color, $this->icon
-        );
+        $this->icon->setAttribute('fill', $color);
 
         return $this;
     }
