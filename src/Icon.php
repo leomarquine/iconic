@@ -163,4 +163,17 @@ class Icon
 
         return $this;
     }
+
+    /**
+     * Set the icon id.
+     *
+     * @param  string  $id
+     * @return $this
+     */
+    public function id($id)
+    {
+        $this->icon->setAttribute('id', $id);
+
+        return $this;
+    }
 }

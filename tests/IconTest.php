@@ -94,6 +94,12 @@ class IconTest extends TestCase
     }
 
     /** @test */
+    function it_sets_the_id_of_the_svg()
+    {
+        $this->assertEquals('<svg fill="#000000" height="24" id="id" width="24"></svg>', icon('name')->id('id'));
+    }
+
+    /** @test */
     function it_applies_default_values()
     {
         $this->init([
