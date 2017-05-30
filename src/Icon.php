@@ -176,4 +176,30 @@ class Icon
 
         return $this;
     }
+
+    /**
+     * Handle dynamic method calls for icon states.
+     *
+     * @param  string  $method
+     * @param  array  $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if (! isset($this->config['states'][$method])) {
+            return;
+        }
+
+        $state = $this->config['states'][$method];
+
+        if (substr($state, 0 , 1) == '.') {
+            $method = 'class';
+            $arguments = implode(' ', explode('.', trim($state, '.')));
+        } else {
+            $method = 'color';
+            $arguments = $state;
+        }
+
+        return $this->{$method}($arguments);
+    }
 }
