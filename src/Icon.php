@@ -3,8 +3,9 @@
 namespace Marquine\Iconic;
 
 use DOMDocument;
+use Illuminate\Contracts\Support\Htmlable;
 
-class Icon
+class Icon implements Htmlable
 {
     /**
      * Current icon.
@@ -86,6 +87,16 @@ class Icon
     public function render()
     {
         return $this->icon->C14N();
+    }
+
+    /**
+     * Get the svg string.
+     *
+     * @return string
+     */
+    public function toHtml()
+    {
+        return $this->render();
     }
 
     /**

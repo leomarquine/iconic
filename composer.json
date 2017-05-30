@@ -9,7 +9,9 @@
             "email": "leonardomarquine@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "illuminate/contracts": "^5.4"
+    },
     "autoload": {
         "psr-4": {
             "Marquine\\Iconic\\": "src/"
