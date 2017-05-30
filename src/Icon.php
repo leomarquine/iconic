@@ -147,4 +147,20 @@ class Icon
 
         return $this;
     }
+
+    /**
+     * Set the icon class.
+     *
+     * @param  string  $class
+     * @param  bool  $override
+     * @return $this
+     */
+    public function class($class, $override = false)
+    {
+        $class = $override ? $class : $this->icon->getAttribute('class')." $class";
+
+        $this->icon->setAttribute('class', trim($class));
+
+        return $this;
+    }
 }
