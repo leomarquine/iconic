@@ -11,9 +11,9 @@ return [
     ],
 
     'states' => [
-        'success' => '.success',
-        'info'    => '.info',
-        'warning' => '.warning',
-        'danger'  => '.danger',
+        'success' => 'success',
+        'info'    => 'info',
+        'warning' => 'warning',
+        'danger'  => 'danger',
     ],
 ];
