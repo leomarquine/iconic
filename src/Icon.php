@@ -193,12 +193,14 @@ class Icon implements Htmlable
      *
      * @param  string  $method
      * @param  array  $arguments
-     * @return mixed
+     * @return $this
      */
     public function __call($method, $arguments)
     {
-        if (! isset($this->config['states'][$method])) {
-            return;
+        $condition = ! empty($arguments) && array_shift($arguments) == false;
+
+        if (! isset($this->config['states'][$method]) || $condition) {
+            return $this;
         }
 
         $value = $this->config['states'][$method];
