@@ -201,16 +201,14 @@ class Icon implements Htmlable
             return;
         }
 
-        $state = $this->config['states'][$method];
+        $value = $this->config['states'][$method];
 
-        if (substr($state, 0 , 1) == '.') {
-            $method = 'class';
-            $arguments = implode(' ', explode('.', trim($state, '.')));
+        if (is_callable($value)) {
+            $value($this);
         } else {
-            $method = 'color';
-            $arguments = $state;
+            $this->class($value);
         }
 
-        return $this->{$method}($arguments);
+        return $this;
     }
 }

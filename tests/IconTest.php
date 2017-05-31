@@ -121,12 +121,14 @@ class IconTest extends TestCase
         $this->init([
             'path' => '/path/to/icons',
             'states' => [
-                'success' => '#416e61',
-                'warning' => '.warning',
+                'warning' => 'icon warning',
+                'success' => function ($icon) {
+                    $icon->color('#4d6968')->class('icon')->size(23);
+                }
             ]
         ]);
 
-        $this->assertEquals('<svg fill="#416e61" height="24" width="24"></svg>', icon('name')->success());
-        $this->assertEquals('<svg class="warning" fill="#000000" height="24" width="24"></svg>', icon('name')->warning());
+        $this->assertEquals('<svg class="icon warning" fill="#000000" height="24" width="24"></svg>', icon('name')->warning());
+        $this->assertEquals('<svg class="icon" fill="#4d6968" height="23" width="23"></svg>', icon('name')->success());
     }
 }
