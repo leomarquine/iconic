@@ -26,4 +26,20 @@ class RepositoryTest extends TestCase
             $svg, $repository->get('icon', $filesystem->path('icons'))
         );
     }
+
+    /** @test */
+    function it_converts_dot_notation_to_nested_directories()
+    {
+        $repository = new Repository;
+
+        $svg  = '<svg fill="#000000" height="24" width="24"></svg>';
+
+        $filesystem = new FileSystem();
+        mkdir($filesystem->path('icons/category'), 0777, true);
+
+        file_put_contents($filesystem->path('icons/category/icon.svg'), $svg);
+        $this->assertEquals(
+            $svg, $repository->get('category.icon', $filesystem->path('icons'))
+        );
+    }
 }

@@ -24,7 +24,7 @@ class Repository
     {
         if (! array_key_exists($name, $this->cache)) {
             $this->cache[$name] = $this->file(
-                rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$name.'.svg'
+                rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.str_replace('.', DIRECTORY_SEPARATOR, $name).'.svg'
             );
         }
 
