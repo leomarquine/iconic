@@ -1,9 +1,7 @@
 <?php
 
-namespace Marquine\Iconic\Providers\Laravel;
+namespace Marquine\Iconic;
 
-use Marquine\Iconic\Icon;
-use Marquine\Iconic\Repository;
 use Illuminate\Support\ServiceProvider;
 
 class IconicServiceProvider extends ServiceProvider
@@ -16,7 +14,7 @@ class IconicServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/iconic.php' => config_path('iconic.php'),
+            __DIR__.'/../config/iconic.php' => config_path('iconic.php'),
         ], 'iconic');
     }
 
