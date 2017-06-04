@@ -147,6 +147,28 @@ class Icon implements Htmlable
     }
 
     /**
+     * Set the icon style.
+     *
+     * @param  mixed  $style
+     * @param  mixed  $value
+     * @return $this
+     */
+    public function style($style, $value = null)
+    {
+        if (! is_array($style)) {
+            $style = [$style => $value];
+        }
+
+        array_walk($style, function (&$value, $property) {
+            $value = "$property: $value;";
+        });
+
+        $this->icon->setAttribute('style', implode(' ', $style));
+
+        return $this;
+    }
+
+    /**
      * Set the icon color.
      *
      * @param  string  $color

@@ -148,4 +148,21 @@ class IconTest extends TestCase
         $this->assertEquals('<svg class="success" fill="#000000" height="24" width="24"></svg>', icon('name')->success($condition)->warning(! $condition));
         $this->assertEquals('<svg class="warning" fill="#000000" height="24" width="24"></svg>', icon('name')->success(! $condition)->warning($condition));
     }
+
+    /** @test */
+    function it_sets_the_style_of_the_icon()
+    {
+        $this->assertEquals('<svg fill="#000000" height="24" style="z-index: 10;" width="24"></svg>', icon('name')->style('z-index', 10));
+    }
+
+    /** @test */
+    function it_sets_the_multiple_styles_of_the_icon()
+    {
+        $style = [
+            'margin' => '10px',
+            'z-index' => '10',
+        ];
+
+        $this->assertEquals('<svg fill="#000000" height="24" style="margin: 10px; z-index: 10;" width="24"></svg>', icon('name')->style($style));
+    }
 }
