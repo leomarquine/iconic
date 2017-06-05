@@ -100,6 +100,17 @@ To override existing classes, set the override parameter of the class method to 
 echo icon('menu')->class('success', true);
 ```
 
+### Style
+Set the icon style:
+```php
+echo icon('menu')->style('z-index', 10);
+```
+
+Use an array to set multiple properties:
+```php
+echo icon('menu')->style(['margin' => '10px', 'z-index' => 10]);
+```
+
 ### Id
 Set the id of the icon:
 ```php
