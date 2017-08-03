@@ -21,11 +21,6 @@ $config = [
         'width'  => '1em',
         'class'  => 'icon'
     ],
-
-    // Custom states of the icons
-    'states' => [
-        //
-    ],
 ];
 ```
 ### Gerenal setup
@@ -117,14 +112,15 @@ echo icon('menu')->id('icon_id');
 ```
 
 ### States
-States are defined in the configuration array as css classes or callbacks:
+States are useful to apply multiple changes at once. To register a state, give it a name and a callback. An instance of the icon will be passed to the callback:
 ```php
-'states' => [
-    'warning' => 'warning',
-    'success' => function ($icon) {
-        $icon->color('#4d6968')->class('icon')->size(23);
-    }
-],
+Icon::state('success', function ($icon) {
+    $icon->color('#4d6968')->class('icon')->size(23);
+});
+
+Icon::state('warning', function ($icon) {
+    $icon->class('warning')->style('margin', '10px');
+});
 ```
 To apply states, call the name of the state as a method:
 ```php
