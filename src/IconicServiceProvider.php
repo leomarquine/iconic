@@ -13,22 +13,10 @@ class IconicServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Icon::config($this->app['config']['iconic']);
+
         $this->publishes([
             __DIR__.'/../config/iconic.php' => config_path('iconic.php'),
         ], 'iconic');
-    }
-
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->singleton(Icon::class, function ($app) {
-            return new Icon(new Repository, $app['config']['iconic']);
-        });
-
-        icon($this->app->make(Icon::class));
     }
 }
