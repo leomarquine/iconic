@@ -15,30 +15,51 @@ class Icon implements Htmlable
     protected $icon;
 
     /**
-     * Icons repository.
-     *
-     * @var \Marquine\Iconic\Repository
-     */
-    protected $repository;
-
-    /**
      * The configuration array.
      *
      * @var array
      */
-    protected $config;
+    protected static $config;
+
+    /**
+     * Icons repository.
+     *
+     * @var \Marquine\Iconic\Repository
+     */
+    protected static $repository;
 
     /**
      * Create a new Icon instance.
      *
-     * @param  \Marquine\Iconic\Repository  $repository
-     * @param  array  $config
      * @return void
      */
-    public function __construct(Repository $repository, $config)
+    public function __construct()
     {
-        $this->repository = $repository;
-        $this->config = $config;
+        if (! static::$repository) {
+            static::repository(new Repository);
+        }
+    }
+
+    /**
+     * Set the icons repository.
+     *
+     * @param  \Marquine\Iconic\Repository  $repository
+     * @return void
+     */
+    public static function repository(Repository $repository)
+    {
+        static::$repository = $repository;
+    }
+
+    /**
+     * Set the configuration.
+     *
+     * @param  array  $repository
+     * @return void
+     */
+    public static function config(array $config)
+    {
+        static::$config = $config;
     }
 
     /**
@@ -49,8 +70,8 @@ class Icon implements Htmlable
      */
     public function make($name)
     {
-        $icon = $this->repository->get(
-            $name, $this->config['path']
+        $icon = static::$repository->get(
+            $name, static::$config['path']
         );
 
         $document = new DOMDocument;
@@ -70,11 +91,11 @@ class Icon implements Htmlable
      */
     protected function defaults()
     {
-        if (! array_key_exists('defaults', $this->config)) {
+        if (! array_key_exists('defaults', static::$config)) {
             return;
         }
 
-        foreach ($this->config['defaults'] as $key => $value) {
+        foreach (static::$config['defaults'] as $key => $value) {
             $this->{$key}($value);
         }
     }
@@ -221,11 +242,11 @@ class Icon implements Htmlable
     {
         $condition = ! empty($arguments) && array_shift($arguments) == false;
 
-        if (! isset($this->config['states'][$method]) || $condition) {
+        if (! isset(static::$config['states'][$method]) || $condition) {
             return $this;
         }
 
-        $value = $this->config['states'][$method];
+        $value = static::$config['states'][$method];
 
         if (is_callable($value)) {
             $value($this);

@@ -11,33 +11,24 @@ class IconTest extends TestCase
     {
         parent::setUp();
 
-        $this->init();
-    }
-
-    public function init($config = null, $svg = null)
-    {
-        $config = $config ?: ['path' => '/path/to/icons'];
-        $svg = $svg ?: '<svg fill="#000000" height="24" width="24"></svg>';
-
         $repository = Mockery::mock('Marquine\Iconic\Repository');
-        $repository->shouldReceive('get')->with('name', '/path/to/icons')->once()->andReturn($svg);
+        $repository->shouldReceive('get')->with('name', '/path/to/icons')->once()->andReturn('<svg fill="#000000" height="24" width="24"></svg>');
 
-        $this->icon = new Icon($repository, $config);
-
-        icon($this->icon);
+        Icon::config(['path' => '/path/to/icons']);
+        Icon::repository($repository);
     }
 
     /** @test */
     function it_renders_the_svg()
     {
-        $this->assertEquals('<svg fill="#000000" height="24" width="24"></svg>', $this->icon->make('name')->render());
+        $icon = new Icon;
+
+        $this->assertEquals('<svg fill="#000000" height="24" width="24"></svg>', $icon->make('name')->render());
     }
 
     /** @test */
     function it_provides_an_icon_helper_function()
     {
-        icon($this->icon); // Set the helper function Icon instance.
-
         $this->assertInstanceOf(Icon::class, icon('name'));
     }
 
@@ -80,7 +71,10 @@ class IconTest extends TestCase
     /** @test */
     function it_appends_a_class_of_the_svg()
     {
-        $this->init(null, '<svg class="icon" fill="#000000" height="24" width="24"></svg>');
+        $repository = Mockery::mock('Marquine\Iconic\Repository');
+        $repository->shouldReceive('get')->with('name', '/path/to/icons')->once()->andReturn('<svg class="icon" fill="#000000" height="24" width="24"></svg>');
+
+        Icon::repository($repository);
 
         $this->assertEquals('<svg class="icon success" fill="#000000" height="24" width="24"></svg>', icon('name')->class('success'));
     }
@@ -88,7 +82,10 @@ class IconTest extends TestCase
     /** @test */
     function it_overrides_a_class_of_the_svg()
     {
-        $this->init(null, '<svg class="warning" fill="#000000" height="24" width="24"></svg>');
+        $repository = Mockery::mock('Marquine\Iconic\Repository');
+        $repository->shouldReceive('get')->with('name', '/path/to/icons')->once()->andReturn('<svg class="warning" fill="#000000" height="24" width="24"></svg>');
+
+        Icon::repository($repository);
 
         $this->assertEquals('<svg class="success" fill="#000000" height="24" width="24"></svg>', icon('name')->class('success', true));
     }
@@ -102,7 +99,7 @@ class IconTest extends TestCase
     /** @test */
     function it_applies_default_values()
     {
-        $this->init([
+        Icon::config([
             'path' => '/path/to/icons',
             'defaults' => [
                 'color' => '#4c656f',
@@ -118,7 +115,7 @@ class IconTest extends TestCase
     /** @test */
     function it_sets_the_state_of_the_icon()
     {
-        $this->init([
+        Icon::config([
             'path' => '/path/to/icons',
             'states' => [
                 'warning' => 'icon warning',
@@ -135,7 +132,7 @@ class IconTest extends TestCase
     /** @test */
     function it_conditionally_sets_the_state_of_the_icon()
     {
-        $this->init([
+        Icon::config([
             'path' => '/path/to/icons',
             'states' => [
                 'success' => 'success',

@@ -6,17 +6,11 @@ if (! function_exists('icon')) {
     /**
     * Get svg icon.
     *
-    * @param  mixed  $name
+    * @param  string  $icon
     * @return \Marquine\Iconic\Icon
     */
-    function icon($name)
+    function icon($icon)
     {
-        static $icon;
-
-        if ($name instanceof Icon) {
-            return $icon = $name;
-        }
-
-        return $icon->make($name);
+        return (new Icon)->make($icon);
     }
 }
