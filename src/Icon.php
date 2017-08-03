@@ -138,6 +138,20 @@ class Icon implements Htmlable
     }
 
     /**
+     * Set an attribute value.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return $this
+     */
+    public function attribute($attribute, $value)
+    {
+        $this->icon->setAttribute($attribute, $value);
+
+        return $this;
+    }
+
+    /**
      * Set the icon height.
      *
      * @param  mixed  $height

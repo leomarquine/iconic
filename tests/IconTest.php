@@ -39,6 +39,12 @@ class IconTest extends TestCase
     }
 
     /** @test */
+    function it_sets_an_attribute_value()
+    {
+        $this->assertEquals('<svg fill="#000000" height="24" role="button" width="24"></svg>', icon('name')->attribute('role', 'button'));
+    }
+
+    /** @test */
     function it_changes_the_height_of_the_svg()
     {
         $this->assertEquals('<svg fill="#000000" height="16" width="24"></svg>', icon('name')->height(16));
