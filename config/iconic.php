@@ -9,8 +9,4 @@ return [
         'width'  => '1em',
         'class'  => 'icon'
     ],
-
-    'states' => [
-        //
-    ],
 ];
