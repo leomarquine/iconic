@@ -8,9 +8,9 @@ use Illuminate\Contracts\Support\Htmlable;
 class Icon implements Htmlable
 {
     /**
-     * Current icon.
+     * Svg icon.
      *
-     * @var string
+     * @var \DOMElement
      */
     protected $icon;
 
