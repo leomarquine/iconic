@@ -29,6 +29,13 @@ class Icon implements Htmlable
     protected static $repository;
 
     /**
+     * Icon states.
+     *
+     * @var array
+     */
+    protected static $states = [];
+
+    /**
      * Create a new Icon instance.
      *
      * @return void
@@ -232,6 +239,18 @@ class Icon implements Htmlable
     }
 
     /**
+     * Add an icon state.
+     *
+     * @param  string  $state
+     * @param  \Closure  $callback
+     * @return void
+     */
+    public static function state($state, $callback)
+    {
+        static::$states[$state] = $callback;
+    }
+
+    /**
      * Handle dynamic method calls for icon states.
      *
      * @param  string  $method
@@ -242,17 +261,13 @@ class Icon implements Htmlable
     {
         $condition = ! empty($arguments) && array_shift($arguments) == false;
 
-        if (! isset(static::$config['states'][$method]) || $condition) {
+        if (! isset(static::$states[$method]) || $condition) {
             return $this;
         }
 
-        $value = static::$config['states'][$method];
+        $callback = static::$states[$method];
 
-        if (is_callable($value)) {
-            $value($this);
-        } else {
-            $this->class($value);
-        }
+        $callback($this);
 
         return $this;
     }

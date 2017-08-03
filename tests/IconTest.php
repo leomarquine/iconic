@@ -115,30 +115,23 @@ class IconTest extends TestCase
     /** @test */
     function it_sets_the_state_of_the_icon()
     {
-        Icon::config([
-            'path' => '/path/to/icons',
-            'states' => [
-                'warning' => 'icon warning',
-                'success' => function ($icon) {
-                    $icon->color('#4d6968')->class('icon')->size(23);
-                }
-            ]
-        ]);
+        Icon::state('success', function ($icon) {
+            $icon->color('#4d6968')->class('icon')->size(23);
+        });
 
-        $this->assertEquals('<svg class="icon warning" fill="#000000" height="24" width="24"></svg>', icon('name')->warning());
         $this->assertEquals('<svg class="icon" fill="#4d6968" height="23" width="23"></svg>', icon('name')->success());
     }
 
     /** @test */
     function it_conditionally_sets_the_state_of_the_icon()
     {
-        Icon::config([
-            'path' => '/path/to/icons',
-            'states' => [
-                'success' => 'success',
-                'warning' => 'warning',
-            ]
-        ]);
+        Icon::state('success', function ($icon) {
+            $icon->class('success');
+        });
+
+        Icon::state('warning', function ($icon) {
+            $icon->class('warning');
+        });
 
         $condition = true;
 
