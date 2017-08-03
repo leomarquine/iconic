@@ -29,16 +29,15 @@ $config = [
 ];
 ```
 ### Gerenal setup
-New up an instance of `Marquine\Iconic\Icon` with the required parameters as the icon helper instance:
+Register your configuration array:
 ```php
 use Marquine\Iconic\Icon;
-use Marquine\Iconic\Repository;
 
 $config = [
     // Configuration array
-]
+];
 
-icon(new Icon(new Repository, $config));
+Icon::config($config);
 ```
 
 ### Laravel setup
