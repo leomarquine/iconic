@@ -13,7 +13,9 @@ class IconicServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Icon::config($this->app['config']['iconic']);
+        if ($config = $this->app['config']['iconic']) {
+            Icon::config($config);
+        }
 
         $this->publishes([
             __DIR__.'/../config/iconic.php' => config_path('iconic.php'),
